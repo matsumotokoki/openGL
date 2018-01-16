@@ -9,8 +9,18 @@
 #define m_box 50 //グラムi
 #define m_sphere 5
 
+char cinc,cinb;
 float xsve,ysve,xsb,ysb=0,cpu_x=0,cpu_y,wall=0;
 float xsve=9.8;
+void render_string(float x, float y, const char* string){
+    float z = -1.0f; // 画面上にテキスト描画
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, cinc); // 画面上にテキスト描画
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, cinb);
+    glColor3f(0.5, 0.5, 0.5);
+    glRasterPos3f(x, y, z);
+    char* p = (char*) string;
+    while (*p != '\0') glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *p++);
+}
 double vertices[][3]={//四角形
 	{0.0-200, 0.0, 0.0},
 	{0.0-200, 110, 0.0},
@@ -110,6 +120,8 @@ void display(void)
     glColor3f(0.0,1.0,0.6);
 	glTranslated(-tx, -ty,- tz); //平行移動
 	glTranslated(rox, roy, tz);  //平行移動
+    render_string(-180,45,"YOU");
+    glColor3f(0.0,1.0,0.6);
 	glBegin(GL_LINE_LOOP); //プリミティブの指定は2Dの時と同じ
 	for(int i=0; i < 4; i++)
 		glVertex3dv(vertices[i]); //2dではなく3d
@@ -119,6 +131,8 @@ void display(void)
 	//glTranslated(-tx, -ty,- tz); //平行移動
 	glTranslated(-rox,-roy,-tz);  //平行移動
     glTranslated(cpu_x,cpu_y-45,0.0);
+    render_string(810,35,"CPU");
+    glColor3f(0.7,0.2,0.4);
 	glBegin(GL_LINE_LOOP); //プリミティブの指定は2Dの時と同じ
 	for(int i=0; i < 4; i++)
 		glVertex3dv(cpu[i]); //2dではなく3d
@@ -304,7 +318,7 @@ int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
 	glutInitWindowPosition(0, 0); //ウインドウを表示する画面上の左上の位置
-	glutInitWindowSize(3000, 2000); //ウインドウのサイズ
+	glutInitWindowSize(3000, 2000); //ウインドウ
 	glutInitDisplayMode(GLUT_RGBA);
 	glutCreateWindow(argv[0]);
 	glutDisplayFunc(display);
